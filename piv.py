@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import matplotlib.pyplot as plt
+from matplotlib.pyplot import *
 import numpy as np
 from scipy import signal
 import os
 
 def loaddata(file1, file2):
-    os.chdir(os.path.dirname(os.path.realpath(file1)))
-    img1 = plt.imread(file1)
-    img2 = plt.imread(file2)
+
+    img1 = imread(os.path.realpath(file1))
+    img2 = imread(os.path.realpath(file2))
     
     if img1.shape != img2.shape:
         raise ValueError('Dimensions of input images do not match!')
@@ -18,7 +18,7 @@ def loaddata(file1, file2):
     return img1, img2
 
 x, y = loaddata('B005_1.tif', 'B005_2.tif')
-plt.imshow(x)
+imshow(x)
 
 def piv(file1, file2, siw=20, ssw=None):
     #Init
@@ -38,9 +38,9 @@ def piv(file1, file2, siw=20, ssw=None):
     X, Y = np.meshgrid(x, y)
 
     #Plot Grid
-    #plt.figure(3, figsize=(20,20))
-    #plt.plot(X, Y, marker='.', color='k', linestyle='none')
-    #plt.axis('equal')
+    #figure(3, figsize=(20,20))
+    #plot(X, Y, marker='.', color='k', linestyle='none')
+    #axis('equal')
     
     u = np.zeros((len(y), len(x)))
     v = np.zeros((len(y), len(x)))
@@ -75,15 +75,24 @@ def piv(file1, file2, siw=20, ssw=None):
 
 #"B005_1.tif", "B005_2.tif", "B_010.TIF","B_014.TIF" , "B038a.bmp", "B038b.bmp", "A001_1.tif", "A001_2.tif", 'A045a.tif', 'A045b.tif'
 
-X, Y, U, V = piv('A045a.tif', 'A045b.tif', ssw=30)
+file1, file2 = "A001_1.tif", "A001_2.tif"
+X, Y, U, V = piv(file1, file2, ssw=30)
 M = np.sqrt(pow(U, 2) + pow(V, 2))
 
 # Plot Results
 
-#plt.figure(figsize=(15,15))
-#plt.imshow(img2, alpha=.4)
-#plt.streamplot(X, Y, U, V)
-#plt.contourf(X,Y,M, alpha=.9)
-#plt.quiver(X, Y, U, V, angles='xy')
+#figure(figsize=(15,15))
+
+#subplot(1,3,1)
+#imshow(plt.imread(file2), alpha=.4)
+#streamplot(X, Y, U, V)
+
+#subplot(1,3,2)
+#imshow(plt.imread(file2), alpha=.4)
+#contourf(X,Y,M)
+
+#subplot(1,3,3)
+#imshow(plt.imread(file2), alpha=.4)
+#quiver(X, Y, U, V, angles='xy')
 
 
